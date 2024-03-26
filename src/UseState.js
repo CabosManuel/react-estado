@@ -3,32 +3,41 @@ import { useEffect, useState } from "react";
 const SECURITY_CODE = 'usestate';
 
 function UseState({ name }) {
+  // useState Compuesto
+  const [state, setState] = useState({
+    error: false,
+    loading: false,
+    value: ''
+  });
+
+  // useState Independiente
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState('');
 
-  console.log(value);
+  console.log(state);
 
   useEffect(() => {
     console.log('********* Start useEffect() *********');
 
-    if (loading) {
-      setError(false);
+    if (state.loading) {
+      setState({ ...state, ...state, error: false });
 
       setTimeout(() => {
         console.log('Validation data...');
-        if (value !== SECURITY_CODE) {
-          setError(true);
+        // if (value !== SECURITY_CODE) { // useSate Independiente
+        if (state.value !== SECURITY_CODE) { // useState Compuesto
+          setState({ ...state, error: true });
         }
 
-        setLoading(false);
+        setState({ ...state, loading: false });
 
         console.log('Validation complete!');
       }, 2000);
     }
 
     console.log('********** End useEffect() **********');
-  }, [loading]);
+  }, [state.loading]);
 
   return (
     <div>
@@ -36,19 +45,19 @@ function UseState({ name }) {
       <p>Escribe el código de seguridad.</p>
       <input
         placeholder="Código de seguridad"
-        value={value}
+        value={state.value}
         onChange={(event) => {
-          setValue(event.target.value);
+          setState({ ...state, value: event.target.value });
         }}
       />
-      <button onClick={() => setLoading(true)}>Enviar</button>
+      <button onClick={() => setState({ ...state, loading: true })}>Enviar</button>
 
-      { (loading)
+      { (state.loading)
         ? <p>Loading...</p>
         : null
       }
 
-      { (error)
+      { (state.error)
         ? <p style={{color: "red"}}>Error: useState "error" default value is true</p>
         : null
       }
