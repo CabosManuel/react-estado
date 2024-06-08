@@ -9,8 +9,14 @@ const initialState = {
 // const reducer = (state, action) => {
 // }
 
-// 1ra Forma de crear un Reducer: Usando condicionales
+// --------------------------
+// Formas de crear un Reducer
+// --------------------------
+
+// 1. Usando condicionales
 const reducer = (state, action) => {
+
+  // Diferentes tipos de estado
   if(action.type === 'ERROR') {
     return {
       ...state, // El estado anterior
@@ -22,14 +28,14 @@ const reducer = (state, action) => {
       ...state,
       loading: true,
     };
-  } else {
+  } else { // Siempre un estado por defecto
     return {
       ...state,
     }
   }
 }
 
-// 2ra Forma de crear un Reducer: Usando switch (más común)
+// Usando switch (más común)
 const reducerSwitch = (state, action) => {
   switch (action.type) {
     case 'ERROR':
